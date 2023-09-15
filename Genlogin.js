@@ -3,7 +3,7 @@ const LOCAL_URL = 'http://localhost:55550/profiles'
 
 class Genlogin {
 
-    constructor(api_key){
+    constructor(api_key) {
         this.api_key = api_key
     }
 
@@ -29,7 +29,7 @@ class Genlogin {
         return res
     }
 
-    async getWsEndpoint(id){
+    async getWsEndpoint(id) {
         const url = LOCAL_URL + `/${id}/ws-endpoint`;
         const res = await axios.get(url).then(res =>
             res.data
@@ -40,21 +40,22 @@ class Genlogin {
     }
 
     async runProfile(id) {
-        const url = LOCAL_URL + `/${id}/start`;
-        const res = await axios.get(url).then(res =>
-            res.data
-        ).catch(err =>
-            err.response.data
-        );
-        if(res.success)return {success : true, wsEndpoint : res.wsEndpoint}
-        else{
-            const resEndpoint = await this.getWsEndpoint(id);
-            if(resEndpoint.data.wsEndpoint != '')return {success : true,...resEndpoint.data}
+        const resEndpoint = await this.getWsEndpoint(id);
+        if (resEndpoint.data.wsEndpoint != '') return { success: true, ...resEndpoint.data }
+        else {
+            const url = LOCAL_URL + `/${id}/start`;
+            const res = await axios.get(url).then(res =>
+                res.data
+            ).catch(err =>
+                err.response.data
+            );
+            if (res.wsEndpoint) return { success: true, wsEndpoint: res.wsEndpoint }
             else return {
                 success: false,
-                message : "Profile is running in another device"
+                message: "Profile is running in another device"
             }
         }
+
     }
 
     async stopProfile(id) {
