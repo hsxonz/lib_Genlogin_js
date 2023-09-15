@@ -1,17 +1,17 @@
-# library <a href="https://gologin.com" target="_blank">gologin.com</a> API
+# library <a href="https://genlogin.com" target="_blank">Genlogin API</a>
 # Official Package
 
 ## Getting Started
 
-GoLogin supports Linux, MacOS and Windows platforms.
+Genlogin supports MacOS and Windows platforms.
 
 ### Installation
 
-`npm i gologin`
+`npm i genlogin`
 
-for running example.js install puppeteer-core
+for running example.js install puppeteer
 
-`npm i puppeteer-core`
+`npm i puppeteer`
 
 ### Usage
 
@@ -23,47 +23,32 @@ To have an access to the page below you need <a href="https://app.gologin.com/#/
 ### Example
 
 ```js
-import puppeteer from 'puppeteer-core';
-
-import GoLogin from '../src/gologin.js';
-
-const { connect } = puppeteer;
+const Genlogin = require('./Genlogin');
+const puppeteer = require('puppeteer');
 
 (async () => {
-  const GL = new GoLogin({
-    token: 'yU0token',
-    profile_id: 'yU0Pr0f1leiD',
-  });
+    const genlogin = new Genlogin("");
+    const profile = (await genlogin.getProfiles(0, 1)).profiles[0];
+    const  {wsEndpoint} = await genlogin.runProfile(profile.id)
 
-  const { status, wsUrl } = await GL.start().catch((e) => {
-    console.trace(e);
+    const browser =await puppeteer.connect({
+        browserWSEndpoint: wsEndpoint,
+        ignoreHTTPSErrors: true,
+        defaultViewport: false
+    });
 
-    return { status: 'failure' };
-  });
 
-  if (status !== 'success') {
-    console.log('Invalid status');
+    const page = await browser.newPage();
+    await page.goto('https://genlogin.com');
 
-    return;
-  }
-
-  const browser = await connect({
-    browserWSEndpoint: wsUrl.toString(),
-    ignoreHTTPSErrors: true,
-  });
-
-  const page = await browser.newPage();
-  await page.goto('https://myip.link/mini');
-  console.log(await page.content());
-  await browser.close();
-  await GL.stop();
+    // await browser.close(); 
 })();
 ```
 
 ### Running example:
 
-`DEBUG=gologin* node example.js`
-
+`node example.js`
+<!-- 
 ###
 ### Methods
 #### constructor
@@ -160,4 +145,4 @@ const { connect } = puppeteer;
 
 <a href="https://github.com/pyppeteer/pyppeteer" target="_blank">pyppeteer</a> (recommend) and <a href="https://www.selenium.dev" target="_blank">Selenium</a> supported (see file gologin.py)
 
-for Selenium may need download <a href="https://chromedriver.chromium.org/downloads" target="_blank">webdriver</a>
+for Selenium may need download <a href="https://chromedriver.chromium.org/downloads" target="_blank">webdriver</a> -->
