@@ -7,7 +7,7 @@ Genlogin supports MacOS and Windows platforms.
 
 ### Installation
 
-`npm i genlogin`
+<!--`npm i genlogin`-->
 
 for running example.js install puppeteer
 
