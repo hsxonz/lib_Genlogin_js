@@ -40,6 +40,9 @@ const puppeteer = require('puppeteer');
 
 ### Running example:
 `node example.js`
+### Full GoLogin API
+- Swagger: <a href="http://localhost:55550/api-docs" target="_blank">Link here</a> 
+
 ### Methods:
 LOCAL_URL = "http://localhost:55550/profiles"
 
