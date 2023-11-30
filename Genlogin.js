@@ -1,5 +1,5 @@
 const axios = require('axios')
-const LOCAL_URL = 'http://localhost:55550/profiles'
+const LOCAL_URL = 'http://localhost:55550/backend/profiles'
 
 class Genlogin {
 
@@ -21,7 +21,7 @@ class Genlogin {
         const url = LOCAL_URL;
         const res = await axios.get(`${url}?limit=${limit}&offset=${offset}`).then(res =>
         ({
-            profiles: res.data.data.lst_profile,
+            profiles: res.data.data.items,
             pagination: res.data.data.pagination
         })
 
@@ -44,7 +44,7 @@ class Genlogin {
         if (resEndpoint.data.wsEndpoint != '') return { success: true, ...resEndpoint.data }
         else {
             const url = LOCAL_URL + `/${id}/start`;
-            const res = await axios.get(url).then(res =>
+            const res = await axios.put(url).then(res =>
                 res.data
             ).catch(err =>
                 err.response.data
@@ -60,7 +60,7 @@ class Genlogin {
 
     async stopProfile(id) {
         const url = LOCAL_URL + `/${id}/stop`;
-        const res = await axios.get(url).then(res =>
+        const res = await axios.put(url).then(res =>
             res.data
         ).catch(err =>
             err.response.data

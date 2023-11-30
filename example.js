@@ -15,6 +15,6 @@ const puppeteer = require('puppeteer');
 
     const page = await browser.newPage();
     await page.goto('https://genlogin.com');
-
+    await genlogin.stopProfile(profile.id)
     // await browser.close(); 
 })();
